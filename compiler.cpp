@@ -10,7 +10,10 @@ void Compiler_asm::compile( std::string file ) {
 	while( !program.eof() ) {
 		getline(program, line);
 		physicMemory.push_back( line );
-		process( line );
+	}
+	for (int i = 0; i < physicMemory.size(); ++i)
+	{
+		process( physicMemory[i] );
 	}
 }
 
@@ -27,68 +30,79 @@ int Compiler_asm::process( std::string line ) {
 }
 
 void Compiler_asm::init_functionMap( ){
-	// functionMap.emplace("0000",);
-	// functionMap.emplace("0001",);
-	// functionMap.emplace("1",);
-	// functionMap.emplace("2",);
-	// functionMap.emplace("3",);
-	// functionMap.emplace("4",);
-	// functionMap.emplace("5",);
-	// functionMap.emplace("6",);
-	// functionMap.emplace("7",);
-	// functionMap.emplace("8",);
-	// functionMap.emplace("9",);
-	// functionMap.emplace("A",);
+	functionMap.emplace("0000",);
+	functionMap.emplace("0001",);
+	functionMap.emplace("1",);
+	functionMap.emplace("2",);
+	functionMap.emplace("3",);
+	functionMap.emplace("4",);
+	functionMap.emplace("5",);
+	functionMap.emplace("6",);
+	functionMap.emplace("7",);
+	functionMap.emplace("8",);
+	functionMap.emplace("9",);
+	functionMap.emplace("A",);
 }
 
 
 
-void MLOAD( std::string value ) {
-	std::string acc = value;
+void MLOAD( int value ) {
+	int acc = std::stoi( value, 0, 10 )
 }
 
-void DLOAD( std::string value ) {
-
+void DLOAD( int value ) {
+	acc = mem[value];
 }
 
-void ILOAD( std::string value ) {
-
+void ILOAD( int value ) {
+	acc = mem[ mem[value] ];
 }
 
-void DSTORE( std::string value ) {
-	std::string acc;
+void DSTORE( int value ) {
+	int acc;
 	std::unordered_map<std::string, std::string> memory;
-	memory[value] = acc;
+	acc += std::stoi( memory[value], 0, 16 );
 }
 
-void ISTORE( std::string value ) {
-
+void ISTORE( int value ) {
+	int acc;
+	int mem[50];
+	mem[ mem[value] ] = acc;
 }
 
-void HALT( std::string value ) {
-
+void HALT( int value ) {
+	return;
 }
 
-void JMP( std::string value ) {
-
+void JMP( int dir ) {
+	pc = dir;
 }
 
-void JZ( std::string value )  {
-
-}
-
-void JP( std::string value ) {
-
-}
-
-void JN( std::string value ) {
+void JZ( int value )  {
+	if( acc = 0 );
 
 }
 
-void ADD( std::string value ) {
-
+void JP( int value ) {
+	if( acc > 0 );
+		pc = value;
+	else
+		pc++;
 }
 
-void NEGATE( std::string value ) {
+void JN( int value ) {
+	if( acc < 0 )
+		pc = value;
+	else
+		pc++;
+}
 
+void ADD( int value ) {
+	std::unordered_map<std::string, std::string> memory;
+	std::string acc;
+	memory[value];
+}
+
+void NEGATE( int value ) {
+	acc = -1*acc;
 }

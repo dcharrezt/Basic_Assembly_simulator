@@ -2,35 +2,36 @@
 #define COMPILER_H
 
 #include <bits/stdc++.h>
-typedef void (*ScriptFunction)( std::string );
+typedef void (*ScriptFunction)( int );
 typedef std::unordered_map<std::string, ScriptFunction> script_map;
 
-extern std::string acc;
+extern mem[128];
+extern int acc;
+extern int pc;
 extern std::unordered_map<std::string, std::string> memory;
 
-void MLOAD( std::string value ); 
-void DLOAD( std::string value ); 
-void ILOAD( std::string value ); 
-void DSTORE( std::string value ); 
-void ISTORE( std::string value ); 
-void HALT( std::string value ); 
-void JMP( std::string value ); 
-void JZ( std::string value ); 
-void JP( std::string value ); 
-void JN( std::string value ); 
-void ADD( std::string value ); 
-void NEGATE( std::string value ); 
+void MLOAD( int value ); 
+void DLOAD( int value ); 
+void ILOAD( int value ); 
+void DSTORE( int value ); 
+void ISTORE( int value ); 
+void HALT( int value ); 
+void JMP( int value ); 
+void JZ( int value ); 
+void JP( int value ); 
+void JN( int value ); 
+void ADD( int value ); 
+void NEGATE( int value ); 
 
 class Compiler_asm {
 public:
-	std::string fileName;
-	std::vector< std::string > physicMemory;
+	int fileName;
+	std::vector< int > physicMemory;
 	script_map functionMap;
 
-
 public:
-	void compile( std::string file );
-	int process( std::string line );
+	void compile( int file );
+	int process( int line );
 
 	void init_functionMap();
 };
