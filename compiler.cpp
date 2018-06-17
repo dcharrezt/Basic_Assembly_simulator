@@ -2,9 +2,8 @@
 
 void Compiler_asm::compile( std::string file ) {
 	this->fileName = file;
-	int accumulator;
+	
 	init_functionMap();
-
 
 	std::string line;
 	std::ifstream program( fileName );
@@ -30,126 +29,85 @@ int Compiler_asm::process( std::string line) {
 	}	
 	else
 		call_script( line, value );
-
+	std::cout << "current val in accumulator  " << accumulator << std::endl;
+ 
 	return 0;
 }
 
 void Compiler_asm::call_script(const std::string& pFunction, int value)
 {
-    auto iter = functionMap.find(pFunction);
-    if (iter == functionMap.end())
-    {
-        std::cout << "Function not found " << std::endl;
-    }
-
-    (*iter->second)(value);
+	auto fp = functionMap[pFunction];
+    (this->*fp)(value);
 }
 
 
 void Compiler_asm::init_functionMap() {
-	functionMap.emplace("0000", &HALT);
-	functionMap.emplace("0001", &NEGATE);
-	functionMap.emplace("1", &MLOAD);
-	functionMap.emplace("2", &DLOAD);
-	functionMap.emplace("3", &ILOAD);
-	functionMap.emplace("4", &DSTORE);
-	functionMap.emplace("5", &ISTORE);
-	functionMap.emplace("6", &JMP);
-	functionMap.emplace("7", &JZ);
-	functionMap.emplace("8", &JP);
-	functionMap.emplace("9", &JN);
-	functionMap.emplace("A", &ADD);
-	// functionMap["0000"] = HALT;
-	// functionMap["0001"]= NEGATE;
-	// functionMap["1"] = MLOAD;
-	// functionMap["2"] = DLOAD;
-	// functionMap["3"] = ILOAD;
-	// functionMap["4"] = DSTORE;
-	// functionMap["5"] = ISTORE;
-	// functionMap["6"] = JMP;
-	// functionMap["7"] = JZ;
-	// functionMap["8"] = JP;
-	// functionMap["9"] = JN;
-	// functionMap["A"] = ADD;
+	functionMap.emplace("0000", &Compiler_asm::HALT);
+	functionMap.emplace("0001", &Compiler_asm::NEGATE);
+	functionMap.emplace("1", &Compiler_asm::MLOAD);
+	functionMap.emplace("2", &Compiler_asm::DLOAD);
+	functionMap.emplace("3", &Compiler_asm::ILOAD);
+	functionMap.emplace("4", &Compiler_asm::DSTORE);
+	functionMap.emplace("5", &Compiler_asm::ISTORE);
+	functionMap.emplace("6", &Compiler_asm::JMP);
+	functionMap.emplace("7", &Compiler_asm::JZ);
+	functionMap.emplace("8", &Compiler_asm::JP);
+	functionMap.emplace("9", &Compiler_asm::JN);
+	functionMap.emplace("A", &Compiler_asm::ADD);
 }
 
-void MLOAD( int value ) {
-	int accumulator = value;
-	std::cout << "accumulator = " << accumulator << std::endl;
+void Compiler_asm::MLOAD( int value ) {
+	accumulator = value;
 }
 
-void DLOAD( int value ) {
-	int memory[128];
-	int accumulator = memory[ value ];
-	std::cout << "accumulator = " << accumulator << std::endl;
+void Compiler_asm::DLOAD( int value ) {
+	accumulator = memory[ value ];
 }
 
-void ILOAD( int value ) {
-	int memory[128];
-	// std::cout << "M = " << value << std::endl;
-	std::cout << "accumulator = " << memory[ value ] << std::endl;
-
-	int accumulator = memory[memory[ value ]];
+void Compiler_asm::ILOAD( int value ) {
+	accumulator = memory[memory[ value ]];
 }
 
-void DSTORE( int value ) {
-	int accumulator;
-	int memory[128];
+void Compiler_asm::DSTORE( int value ) {
 	memory[ value ] = accumulator; 
 }
 
-void ISTORE( int value ) {
-	int accumulator;
-	int memory[128];
+void Compiler_asm::ISTORE( int value ) {
 	memory[ memory[value] ] = accumulator;
 }
 
-void HALT( int val) {
-	std::cout << "Program Ended " << std::endl;
+void Compiler_asm::HALT( int val) {
 	return;
 }
 
-void JMP( int dir ) {
-	int accumulator;
-	int programCounter;
+void Compiler_asm::JMP( int dir ) {
 	programCounter = dir;
 }
 
-void JZ( int value )  {
-	int accumulator;
-	int programCounter;
+void Compiler_asm::JZ( int value )  {
 	if( accumulator = 0 )
 		programCounter = value;
 
 }
 
-void JP( int value ) {
-	int accumulator;
-	int programCounter;
+void Compiler_asm::JP( int value ) {
 	if( accumulator > 0 )
 		programCounter = value; 
 	else
 		programCounter++;
 }
 
-void JN( int value ) {
-	int accumulator;
-	int programCounter;
+void Compiler_asm::JN( int value ) {
 	if( accumulator < 0 )
 		programCounter = value;
 	else
 		programCounter++;
 }
 
-void ADD( int value ) {
-	int accumulator;
-	int memory[128];
+void Compiler_asm::ADD( int value ) {
 	accumulator += memory[value];
 }
 
-void NEGATE( int val) {
-	std::cout << val << std::endl;
-	int accumulator;
+void Compiler_asm::NEGATE( int val) {
 	accumulator = -1*accumulator;
-	std::cout<< "aacc " << accumulator << std::endl;
 }
