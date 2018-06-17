@@ -3,43 +3,42 @@ C++11
 
 Basic assembly simulator in c++.
 
+| Code  | Instruction |
+| ----- | ----------- |
+| 0000  |	HALT        |
+| 0001  |	NEGATE      |
+| 1XXX  |	MLOAD XXX   |
+| 2XXX  |	DLOAD XXX   |
+| 3XXX  |	ILOAD XXX   |
+| 4XXX  |	DSTORE XXX  |
+| 5XXX  | ISTORE XXX  |
+| 6XXX  |	JMP XXX     |
+| 7XXX  |	JZ XXX      |
+| 8XXX  |	JP XXX      |
+| 9XXX  |	JN XXX      |
+| AXXX  |	ADD XXX     |
 
-Code  		Instruction
-
-0000		HALT
-0001		NEGATE
-1XXX		MLOAD XXX
-2XXX		DLOAD XXX
-3XXX		ILOAD XXX
-4XXX		DSTORE XXX
-5XXX		ISTORE XXX
-6XXX		JMP XXX
-7XXX		JZ XXX
-8XXX		JP XXX
-9XXX		JN XXX
-AXXX		ADD XXX
-
-MLOAD value
+* MLOAD value
 ACC <- value
-DLOAD dir
+* DLOAD dir
 ACC<-M(dir)
-ILOAD dir
+* ILOAD dir
 ACC <- M(M(dir))
-DSTORE dir
+* DSTORE dir
 M(dir) <- ACC
-ISTORE dir
+* ISTORE dir
 M(M(dir))<- ACC
-HALT
+* HALT
 Program Ends
-JMP dir
+* JMP dir
 ProgramCounter <- dir
-JZ dir
+* JZ dir
 if acc = 0, ProgramCounter <- dir
-JP dir
+* JP dir
 if acc > 0, ProgramCounter <- dir
-JN dir
+* JN dir
 if acc < 0, ProgramCounter <- dir
-ADD dir
+* ADD dir
 ACC <- ACC + M[dir]
-NEGATE
+* NEGATE
 negates acc value
